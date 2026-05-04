@@ -1,9 +1,24 @@
 import allure
-from pages.base_page import BasePage
-from locators.main_page import BaseLocators
 from locators.order_feed_locators import OrderFeedLocators
+from locators.main_page_locators import BaseLocators
+from pages.base_page import BasePage
 
-class OrderFeedPage(BasePage):
+class OrderPage(BasePage):
+
+    @allure.step("Кликнуть на кнопку 'Личный кабинет'")
+    def click_personal_account(self):
+        self.click_on_element(BaseLocators.LOGIN_TO_ACCOUNT_BUTTON)
+
+    @allure.step("Заполнить форму авторизации")
+    def fill_log_in_form(self, email, password):
+        self.send_keys_to_input(BaseLocators.EMAIL_INPUT, email)
+        self.send_keys_to_input(BaseLocators.PASSWORD_INPUT, password)
+        self.click_login_button()
+
+    @allure.step("Кликнуть на кнопку 'Войти'")
+    def click_login_button(self):
+        self.click_on_element(BaseLocators.LOGIN_FORM_BUTTON)
+
     @allure.step("Получить текст счетчика всех заказов")
     def get_total_orders_count(self) -> int:
         text = self.get_text_on_element(OrderFeedLocators.COUNTER_ALL)
@@ -24,22 +39,4 @@ class OrderFeedPage(BasePage):
 
     @allure.step("Получить номера всех заказов в работе")
     def get_orders_in_progress(self):
-        elements = self.driver.find_elements(*OrderFeedLocators.ORDER_IN_PROGRESS)
-        return [el.text for el in elements]
-    
-    @allure.step("Создать новый заказ и получить его номер")
-    def create_order(self):
-        self.add_ingredient_to_order("Флюоресцентная булка R2-D3")
-        self.add_ingredient_to_order("Соус фирменный Space Sauce")
-        
-        self.click_on_element(BaseLocators.ORDER_BUTTON)
-        
-        self.wait_for_element(BaseLocators.ORDER_MODAL)
-        # Получить номер заказа
-        order_number_element = self.wait_for_element(BaseLocators.ORDER_NUMBER_MODAL)
-        order_number = order_number_element.text
-        # Закрыть окно
-        self.click_on_element(BaseLocators.CLOSE_MODAL_BUTTON)
-        # Подождать закрытия
-        self.wait_for_element(BaseLocators.ORDER_MODAL)
-        return order_number
+        self.wait_for_element(OrderFeedLocators.ORDER_IN_PROGRESS)

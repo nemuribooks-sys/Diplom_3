@@ -1,8 +1,7 @@
 import allure
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from locators.main_page import BaseLocators
-from selenium.webdriver.common.action_chains import ActionChains
+
 
 TIMEOUT = 15
 
@@ -52,23 +51,6 @@ class BasePage:
     @allure.step("Проверка отсутствия элемента")
     def is_element_not_present(self, locator, timeout=TIMEOUT):
         return WebDriverWait(self.driver, timeout).until(EC.visibility_of_element_located(locator))
-    
-    @allure.step("Добавить ингредиент в заказ")
-    def add_ingredient_to_order(self, ingredient_name: str):
-        # 1. Найти элемент ингредиента
-        ingredient_locator = BaseLocators.ingredient_by_name(ingredient_name)
-        ingredient_element = self.wait_for_element_clickable(ingredient_locator)
-        
-        # 2. Найти зону конструктора (цель перетаскивания)
-        target_locator = BaseLocators.CONSTRUCTOR_AREA
-        target_element = self.wait_for_element(target_locator)
-        
-        # 3. Прокрутить до ингредиента (для надёжности)
-        self.scroll_to_element(ingredient_locator)
-        
-        # 4. Выполнить drag-and-drop
-        actions = ActionChains(self.driver)
-        actions.drag_and_drop(ingredient_element, target_element).perform()
 
     
     

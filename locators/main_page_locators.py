@@ -2,7 +2,6 @@ from selenium.webdriver.common.by import By
 
 class BaseLocators:
     """Локаторы для элементов Stellar Burgers"""
-    
 
     MAIN_PAGE = (By.XPATH, "//h2[text()='Вход']")
     PAGE_TITLE = (By.XPATH, "//p[text()='Лента Заказов']")
@@ -10,8 +9,14 @@ class BaseLocators:
     LOGIN_PAGE_TITLE= (By.XPATH, "//h2[text()='Вход']")
     REGISTRATION_PAGE_TITLE = (By.XPATH, "//h2[text()='Регистрация']")
     
-    LOGIN_TO_ACCOUNT_BUTTON = (By.XPATH, "//button[text()='Войти в аккаунт']") 
+    LOGIN_TO_ACCOUNT_BUTTON = (By.XPATH, '//button[text()="Войти в аккаунт"]') 
     PERSONAL_ACCOUNT_BUTTON = (By.XPATH, "//p[text()='Личный Кабинет']")
+
+    EMAIL_INPUT = (By.XPATH, '//div[label[text()="Email"]]//input')
+    PASSWORD_INPUT = (By.XPATH, '//label[text()="Пароль"]/following-sibling::input')
+
+    LOGIN_FORM_BUTTON = (By.XPATH, "//button[text()='Войти']")
+
     CONSTRUCTOR_BUTTON = (By.XPATH, "//p[text()='Конструктор']")
 
     ORDER_BUTTON = (By.XPATH, "//button[text()='Оформить заказ']")
@@ -31,15 +36,20 @@ class BaseLocators:
     INGREDIENTS_BUNS = (By.XPATH, "//p[@class='text text_type_main-medium mb-8']")
 
 
-    CONSTRUCTOR_AREA = (By.CSS_SELECTOR, "section.BurgerConstructor_basket__29Cd7")
+    CONSTRUCTOR_AREA = (By.XPATH, "//div[contains(@class, 'BurgerConstructor_basket__totalContainer')]")
     
     @staticmethod
     def ingredient_counter_by_name(name):
-        return (By.XPATH, f"//h2[text()='{name}']/following-sibling::p[contains(@class, 'counter_counter__num')]")
+        return (By.XPATH, f"//h2[text()='{name}']/following-sibling::p[contains(@class, 'counter')]")
     
     @staticmethod
     def ingredient_by_name(name):
-        return (By.XPATH, f"//h2[text()='{name}']")
+        return (By.XPATH, f"//a[.//p[text()='{name}']]")
     
+    # ингридиенты
+
+    FLUORESCENT_BUN = (By.XPATH, "//a[.//p[text()='Флюоресцентная булка R2-D3']]")
+    KRATORNAYA_BUN = (By.XPATH, "//p[text()='Краторная булка N-200i']")
+    SPACE_SAUCE = (By.XPATH, "//img[@alt='Соус фирменный Space Sauce']")
 
 
